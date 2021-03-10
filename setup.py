@@ -1,22 +1,24 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys
+import os # use os
+import sys # use sys
+
 
 try:
     reload(sys).setdefaultencoding("UTF-8")
 except:
-    pass
+    pass # an empty block
 
 try:
-    from setuptools import setup
+    from setuptools import setup # use setup
 except ImportError:
-    print('Please install or upgrade setuptools or pip to continue')
-    sys.exit(1)
+    print('Please install or upgrade setuptools or pip to continue') # your text
+    sys.exit(1) # exit()
 
-import codecs
+import codecs # use codecs
 
-
+# create def read(filename):
 def read(filename):
     return codecs.open(filename, encoding='utf-8').read()
 
