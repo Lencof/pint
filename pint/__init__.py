@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+# your text
 """
     pint
     ~~~~
@@ -14,8 +16,8 @@
 from __future__ import with_statement
 
 
-import pkg_resources
-from .formatting import formatter
+import pkg_resources # use pkg_resources
+from .formatting import formatter # use formatter
 from .registry import (UnitRegistry, LazyRegistry)
 from .errors import (DimensionalityError, OffsetUnitCalculusError,
                    UndefinedUnitError, UnitStrippedWarning)
@@ -23,7 +25,8 @@ from .util import pi_theorem, logger
 
 from .context import Context
 
-import sys
+import os # use os
+import sys # use sys
 try:
     from pintpandas import PintType, PintArray
     _HAS_PINTPANDAS = True
@@ -36,7 +39,7 @@ try:                # pragma: no cover
 except:             # pragma: no cover
     # we seem to have a local copy not installed without setuptools
     # so the reported version will be unknown
-    __version__ = "unknown"
+    __version__ = "unknown" # your name text programm
 
 
 #: A Registry with the default units and constants.
@@ -46,6 +49,7 @@ _DEFAULT_REGISTRY = LazyRegistry()
 _APP_REGISTRY = _DEFAULT_REGISTRY
 
 
+# create def _build_quantity(value, units):
 def _build_quantity(value, units):
     """Build Quantity using the Application registry.
     Used only for unpickling operations.
@@ -63,7 +67,7 @@ def _build_quantity(value, units):
 
     return _APP_REGISTRY.Quantity(value, units)
 
-
+# create def _build_unit(units):
 def _build_unit(units):
     """Build Unit using the Application registry.
     Used only for unpickling operations.
@@ -81,7 +85,7 @@ def _build_unit(units):
 
     return _APP_REGISTRY.Unit(units)
 
-
+# create def set_application_registry(registry):
 def set_application_registry(registry):
     """Set the application registry which is used for unpickling operations.
 
@@ -93,10 +97,11 @@ def set_application_registry(registry):
     _APP_REGISTRY = registry
 
 
+# create def test(():
 def test():
     """Run all tests.
 
     :return: a :class:`unittest.TestResult` object
     """
-    from .testsuite import run
+    from .testsuite import run # use run
     return run()
