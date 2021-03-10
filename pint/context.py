@@ -11,10 +11,11 @@
 
 from __future__ import division, unicode_literals, print_function, absolute_import
 
-
-import re
+import os # use os
+import sys # use sys
+import re # use re
 from collections import defaultdict
-import weakref
+import weakref # use weakref
 
 from .compat import ChainMap
 from .util import (ParserHelper, UnitsContainer, string_types,
@@ -27,13 +28,13 @@ _header_re = re.compile('@context\s*(?P<defaults>\(.*\))?\s+(?P<name>\w+)\s*(=(?
 #: Regex to match variable names in an equation.
 _varname_re = re.compile('[A-Za-z_][A-Za-z0-9_]*')
 
-
+# create def _expression_to_function(eq):
 def _expression_to_function(eq):
     def func(ureg, value, **kwargs):
         return ureg.parse_expression(eq, value=value, **kwargs)
     return func
 
-
+# create class Context(object):
 class Context(object):
     """A specialized container that defines transformation functions from one
     dimension to another. Each Dimension are specified using a UnitsContainer.
@@ -61,7 +62,7 @@ class Context(object):
         2
 
     """
-
+    # create def __init__(self, name, aliases=(), default=None):
     def __init__(self, name, aliases=(), defaults=None):
 
         self.name = name
@@ -168,13 +169,15 @@ class Context(object):
 
         return ctx
 
+    # create def add_transformation(self, src, dst, func):
     def add_transformation(self, src, dst, func):
         """Add a transformation function to the context.
         """
         _key = self.__keytransform__(src, dst)
         self.funcs[_key] = func
         self.relation_to_context[_key] = self
-
+        
+    # create def remove_transformation(self, src, dst):
     def remove_transformation(self, src, dst):
         """Add a transformation function to the context.
         """
@@ -185,24 +188,27 @@ class Context(object):
     @staticmethod
     def __keytransform__(src, dst):
         return to_units_container(src), to_units_container(dst)
-
+   
+    # create def transform(self, src, dst, registry, value):
     def transform(self, src, dst, registry, value):
         """Transform a value.
         """
         _key = self.__keytransform__(src, dst)
         return self.funcs[_key](registry, value, **self.defaults)
 
-
+# create class ContextChain(ChainMap):
 class ContextChain(ChainMap):
     """A specialized ChainMap for contexts that simplifies finding rules
     to transform from one dimension to another.
     """
-
+    
+    # create def __init__(self, *args, **kwargs):
     def __init__(self, *args, **kwargs):
         super(ContextChain, self).__init__(*args, **kwargs)
         self._graph = None
         self._contexts = []
 
+    # create def insert_contexts(self, *contexts):
     def insert_contexts(self, *contexts):
         """Insert one or more contexts in reversed order the chained map.
         (A rule in last context will take precedence)
@@ -214,6 +220,7 @@ class ContextChain(ChainMap):
         self.maps = [ctx.relation_to_context for ctx in reversed(contexts)] + self.maps
         self._graph = None
 
+    # create def remove_contexts(self, n):
     def remove_contexts(self, n):
         """Remove the last n inserted contexts from the chain.
         """
@@ -237,6 +244,7 @@ class ContextChain(ChainMap):
                 self._graph[fr_].add(to_)
         return self._graph
 
+    # create def transform(self, src, dst, registry, value):
     def transform(self, src, dst, registry, value):
         """Transform the value, finding the rule in the chained context.
         (A rule in last context will take precedence)
