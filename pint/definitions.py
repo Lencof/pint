@@ -11,13 +11,15 @@
 
 from __future__ import (division, unicode_literals, print_function,
                         absolute_import)
-import sys
+
+import os # use os
+import sys # use sys
 
 from .converters import ScaleConverter, OffsetConverter
 from .util import UnitsContainer, _is_dim, ParserHelper
 from .compat import string_types
 
-
+# create class Definition(object):
 class Definition(object):
     """Base class for definitions.
 
@@ -27,16 +29,19 @@ class Definition(object):
     :param converter: an instance of Converter.
     """
 
+    # create def __init__(self, name, symbol, aliases, converter):
     def __init__(self, name, symbol, aliases, converter):
         self._name = name
         self._symbol = symbol
         self._aliases = aliases
         self._converter = converter
 
+    # create @property
     @property
     def is_multiplicative(self):
         return self._converter.is_multiplicative
 
+    # create @classmethod
     @classmethod
     def from_string(cls, definition):
         """Parse a definition
@@ -87,11 +92,12 @@ class Definition(object):
     def __str__(self):
         return self.name
 
-
+# create class PrefixDefinition(Definition):
 class PrefixDefinition(Definition):
     """Definition of a prefix.
     """
 
+    # create def __init__(self, name, symbol, aliases, converter):
     def __init__(self, name, symbol, aliases, converter):
         if isinstance(converter, string_types):
             converter = ScaleConverter(eval(converter))
@@ -101,7 +107,7 @@ class PrefixDefinition(Definition):
         super(PrefixDefinition, self).__init__(name, symbol, aliases,
                                                converter)
 
-
+# create class nitDefinition(Definition):
 class UnitDefinition(Definition):
     """Definition of a unit.
 
@@ -109,6 +115,7 @@ class UnitDefinition(Definition):
     :param is_base: indicates if it is a base unit.
     """
 
+    # create def __init__(self, name, symbol, aliases, converter,
     def __init__(self, name, symbol, aliases, converter,
                  reference=None, is_base=False):
         self.reference = reference
@@ -141,10 +148,12 @@ class UnitDefinition(Definition):
         super(UnitDefinition, self).__init__(name, symbol, aliases, converter)
 
 
+# create class DimensionDefinition(Definition):
 class DimensionDefinition(Definition):
     """Definition of a dimension.
     """
 
+    # create def __init__(self, name, symbol, aliases, converter,
     def __init__(self, name, symbol, aliases, converter,
                  reference=None, is_base=False):
         self.reference = reference
